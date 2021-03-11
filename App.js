@@ -1,9 +1,9 @@
 import React from 'react';
 import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
-const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
 function Home({navigation}) {
   function goToMessages() {
@@ -62,14 +62,20 @@ function Feed({navigation}) {
   );
 }
 
+function MyDrawer() {
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen name={'Home'} component={Home} />
+      <Drawer.Screen name={'Messages'} component={Messages} />
+      <Drawer.Screen name={'Feed'} component={Feed} />
+    </Drawer.Navigator>
+  );
+}
+
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name={'Home'} component={Home} />
-        <Stack.Screen name={'Feed'} component={Feed} />
-        <Stack.Screen name={'Messages'} component={Messages} />
-      </Stack.Navigator>
+      <MyDrawer />
     </NavigationContainer>
   );
 }
