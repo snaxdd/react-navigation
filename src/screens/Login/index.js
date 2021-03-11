@@ -1,13 +1,36 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
 import {Button} from '../../components/Button';
+import {Navigation} from 'react-native-navigation';
 
-export function Login({navigation}) {
+export function Login(props) {
   function goToHomeScreen() {
-    navigation.navigate('Home');
+    Navigation.push(props.componentId, {
+      component: {
+        name: 'Home',
+        options: {
+          topBar: {
+            title: {
+              text: 'Home',
+            },
+          },
+        },
+      },
+    });
   }
   function goToSomeScreen() {
-    navigation.navigate('Some');
+    Navigation.push(props.componentId, {
+      component: {
+        name: 'Some',
+        options: {
+          topBar: {
+            title: {
+              text: 'Some',
+            },
+          },
+        },
+      },
+    });
   }
   return (
     <View style={styles.container}>
