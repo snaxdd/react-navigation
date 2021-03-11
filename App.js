@@ -1,100 +1,61 @@
 import React from 'react';
-import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
-import {createDrawerNavigator} from '@react-navigation/drawer';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createStackNavigator} from '@react-navigation/stack';
+/**
+ *  Screens
+ */
+import {Login} from './src/screens/Login';
+import {Home as HomeScreen} from './src/screens/Home';
+import {Messages as MessagesScreen} from './src/screens/Messages';
+import {Feed as FeedScreen} from './src/screens/Feed';
 
-const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator();
+const RootStack = createStackNavigator();
+const HomeStack = createStackNavigator();
 
-function Home({navigation}) {
-  function goToMessages() {
-    navigation.navigate('Messages');
-  }
-  function goToFeed() {
-    navigation.navigate('Feed');
-  }
+function MyTabs() {
   return (
-    <View style={[styles.container, styles.screenHome]}>
-      <Pressable style={styles.button} onPress={goToMessages}>
-        <Text style={styles.buttonTextColor}>Go to Messages</Text>
-      </Pressable>
-      <Pressable style={styles.button} onPress={goToFeed}>
-        <Text style={styles.buttonTextColor}>Go to Feed</Text>
-      </Pressable>
-    </View>
+    <Tab.Navigator>
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Messages" component={MessagesScreen} />
+      <Tab.Screen name="Feed" component={FeedScreen} />
+    </Tab.Navigator>
   );
 }
 
-function Messages({navigation}) {
-  function goToHome() {
-    navigation.navigate('Home');
-  }
-  function goToFeed() {
-    navigation.navigate('Feed');
-  }
+function SomeTabs() {
   return (
-    <View style={[styles.container, styles.screenMessages]}>
-      <Pressable style={styles.button} onPress={goToHome}>
-        <Text style={styles.buttonTextColor}>Go to Home</Text>
-      </Pressable>
-      <Pressable style={styles.button} onPress={goToFeed}>
-        <Text style={styles.buttonTextColor}>Go to Feed</Text>
-      </Pressable>
-    </View>
+    <Tab.Navigator>
+      <Tab.Screen name="Messages" component={MessagesScreen} />
+      <Tab.Screen name="Feed" component={FeedScreen} />
+    </Tab.Navigator>
   );
 }
 
-function Feed({navigation}) {
-  function goToHome() {
-    navigation.navigate('Home');
-  }
-  function goToMessages() {
-    navigation.navigate('Messages');
-  }
+function Home() {
   return (
-    <View style={[styles.container, styles.screenFeed]}>
-      <Pressable style={styles.button} onPress={goToMessages}>
-        <Text style={styles.buttonTextColor}>Go to Messages</Text>
-      </Pressable>
-      <Pressable style={styles.button} onPress={goToHome}>
-        <Text style={styles.buttonTextColor}>Go to Home</Text>
-      </Pressable>
-    </View>
-  );
-}
-
-function MyDrawer() {
-  return (
-    <Drawer.Navigator>
-      <Drawer.Screen name={'Home'} component={Home} />
-      <Drawer.Screen name={'Messages'} component={Messages} />
-      <Drawer.Screen name={'Feed'} component={Feed} />
-    </Drawer.Navigator>
+    <HomeStack.Navigator>
+      <HomeStack.Screen name={'Home'} component={HomeScreen} />
+      <HomeStack.Screen name={'Feed'} component={FeedScreen} />
+    </HomeStack.Navigator>
   );
 }
 
 function App() {
   return (
     <NavigationContainer>
-      <MyDrawer />
+      <RootStack.Navigator>
+        <RootStack.Screen
+          name={'Login'}
+          component={Login}
+          options={{headerShown: false}}
+        />
+        <RootStack.Screen name={'Home'} component={MyTabs} />
+        <RootStack.Screen name={'Some'} component={SomeTabs} />
+      </RootStack.Navigator>
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 20,
-    paddingVertical: 20,
-    flex: 1,
-  },
-  screenHome: {backgroundColor: 'grey'},
-  screenFeed: {backgroundColor: 'green'},
-  screenMessages: {backgroundColor: 'purple'},
-  button: {
-    marginTop: 15,
-  },
-  buttonTextColor: {
-    color: '#fff',
-  },
-});
 
 export default App;
